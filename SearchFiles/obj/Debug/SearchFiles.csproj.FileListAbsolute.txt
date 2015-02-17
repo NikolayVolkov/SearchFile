@@ -1,0 +1,9 @@
+c:\users\omkol\documents\visual studio 2013\Projects\SearchFiles\SearchFiles\bin\Debug\SearchFiles.exe.config
+C:\Users\OmKol\documents\visual studio 2013\Projects\SearchFiles\SearchFiles\bin\Debug\SearchFiles.exe
+C:\Users\OmKol\documents\visual studio 2013\Projects\SearchFiles\SearchFiles\bin\Debug\SearchFiles.pdb
+C:\Users\OmKol\documents\visual studio 2013\Projects\SearchFiles\SearchFiles\obj\Debug\SearchFiles.csprojResolveAssemblyReference.cache
+C:\Users\OmKol\documents\visual studio 2013\Projects\SearchFiles\SearchFiles\obj\Debug\SearchFiles.Form1.resources
+C:\Users\OmKol\documents\visual studio 2013\Projects\SearchFiles\SearchFiles\obj\Debug\SearchFiles.Properties.Resources.resources
+C:\Users\OmKol\documents\visual studio 2013\Projects\SearchFiles\SearchFiles\obj\Debug\SearchFiles.csproj.GenerateResource.Cache
+C:\Users\OmKol\documents\visual studio 2013\Projects\SearchFiles\SearchFiles\obj\Debug\SearchFiles.exe
+C:\Users\OmKol\documents\visual studio 2013\Projects\SearchFiles\SearchFiles\obj\Debug\SearchFiles.pdb
