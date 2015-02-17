@@ -24,35 +24,6 @@ namespace SearchFiles
         {
             InitializeComponent();
         }
-        void GetFolders(DirectoryInfo d, TreeNode node)
-        {
-            try
-            {
-                DirectoryInfo[] dInfo = d.GetDirectories();
-                if (dInfo.Length > 0)
-                {
-                    TreeNode treeNode = new TreeNode();
-                    foreach (DirectoryInfo driSub in dInfo)
-                    {
-                        treeNode = node.Nodes.Add(driSub.Name);
-                        GetFolders(driSub, treeNode);
-                    }
-                }
-            }
-            catch { }
-        }
-
-        void GetFiles(DirectoryInfo d, TreeNode node)
-        {
-            FileInfo[] subfileInfo = d.GetFiles("*.*");
-            if (subfileInfo.Length > 0)
-            {
-                for (int j = 0; j < subfileInfo.Length; j++)
-                {
-                    node.Nodes.Add(subfileInfo[j].Name);
-                }
-            }
-        }
         private void ListDirectory(string path, string mask, string findtext)
         {
             treeView1.Invoke((MethodInvoker)(() => treeView1.Nodes.Clear()));

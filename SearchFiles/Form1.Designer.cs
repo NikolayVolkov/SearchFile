@@ -81,6 +81,7 @@
             this.textBoxMask.Name = "textBoxMask";
             this.textBoxMask.Size = new System.Drawing.Size(418, 20);
             this.textBoxMask.TabIndex = 3;
+            this.textBoxMask.Text = "*";
             // 
             // label1
             // 
