@@ -14,8 +14,7 @@ using UITimer = System.Windows.Forms.Timer;
 namespace SearchFiles
 {
     public partial class Form1 : Form
-    {
-        
+    {  
         private static bool run;
         private static bool run2;
         private UITimer timer = null;
@@ -29,6 +28,7 @@ namespace SearchFiles
             treeView1.Invoke((MethodInvoker)(() => treeView1.Nodes.Clear()));
             int filesFound = 0;
             int filesDone = 0;
+            bool alwaysSkipNonReadingFiles = false;
 
             var stack = new Stack<TreeNode>();
             var rootDirectory = new DirectoryInfo(path);
@@ -59,42 +59,67 @@ namespace SearchFiles
                     {
                         processFileLabel.Invoke((MethodInvoker)delegate
                         { processFileLabel.Text = "Обрабатывается файл: " + file.FullName; });
-                        System.IO.StreamReader rdfile = new System.IO.StreamReader(file.FullName);
-                        string line;
-                        while ((line = rdfile.ReadLine()) != null)
+                        System.IO.StreamReader rdfile = null; bool checkReadFile = true; bool readingFile = true;
+                        while (readingFile)
                         {
-                            if (line.Contains(findtext)) //Found file with specified text
+                            try { rdfile = new System.IO.StreamReader(file.FullName); checkReadFile = true; readingFile = false; }
+                            catch
                             {
-                                string[] split = file.FullName.Split('\\'); //Split path into dir names and file name
-                                string splitname = "";
-                                TreeNode savedresult = null; bool findlastresult = false;
-                                foreach (string splitpart in split) //Code for realtime refreshing treeview and don't adding empty folders
+                                checkReadFile = false;
+                                if (alwaysSkipNonReadingFiles) readingFile = false;
+                                else
                                 {
-                                    splitname += splitpart + "\\";
-                                    TreeNode[] result;
-                                    if (findlastresult)
-                                    { result = savedresult.Nodes.Find(splitname, true); }
-                                    else
-                                    { result = treeView1.Nodes.Find(splitname, true); }
-                                    if (result.Length == 0)
+                                    selectDirButton.Invoke((MethodInvoker)(() => selectDirButton.Enabled = false));
+                                    startButton.Invoke((MethodInvoker)(() => startButton.Enabled = false));
+                                    ErrorReadFileForm f = new ErrorReadFileForm(file.FullName);
+                                    var resultReading = f.ShowDialog();
+                                    if (resultReading == DialogResult.OK)
                                     {
-                                        if (findlastresult)
-                                        { treeView1.Invoke((MethodInvoker)(() => savedresult.Nodes.Add(splitname, splitpart))); }
-                                        else
-                                        { treeView1.Invoke((MethodInvoker)(() => treeView1.Nodes.Add(splitname, splitpart))); }
-                                        result = treeView1.Nodes.Find(splitname, true);   
+                                        alwaysSkipNonReadingFiles = f.alwaysSkipNonReadingFiles;
+                                        readingFile = f.readingFile;
                                     }
-                                    savedresult = result[0];
-                                    findlastresult = true;
+                                    selectDirButton.Invoke((MethodInvoker)(() => selectDirButton.Enabled = true));
+                                    startButton.Invoke((MethodInvoker)(() => startButton.Enabled = true));
                                 }
-                                currentNode.Nodes.Add(new TreeNode(file.Name));
-                                filesFound++;
-                                
-                                break;
                             }
-                            if (!run) break;
                         }
+                        if (checkReadFile)
+                        {
+                            string line;
+                            while ((line = rdfile.ReadLine()) != null)
+                            {
+                                if (line.Contains(findtext)) //Found file with specified text
+                                {
+                                    string[] split = file.FullName.Split('\\'); //Split path into dir names and file name
+                                    string splitname = "";
+                                    TreeNode savedresult = null; bool findlastresult = false;
+                                    foreach (string splitpart in split) //Code for realtime refreshing treeview and don't adding empty folders
+                                    {
+                                        splitname += splitpart + "\\";
+                                        TreeNode[] result;
+                                        if (findlastresult)
+                                        { result = savedresult.Nodes.Find(splitname, true); }
+                                        else
+                                        { result = treeView1.Nodes.Find(splitname, true); }
+                                        if (result.Length == 0)
+                                        {
+                                            if (findlastresult)
+                                            { treeView1.Invoke((MethodInvoker)(() => savedresult.Nodes.Add(splitname, splitpart))); }
+                                            else
+                                            { treeView1.Invoke((MethodInvoker)(() => treeView1.Nodes.Add(splitname, splitpart))); }
+                                            result = treeView1.Nodes.Find(splitname, true);
+                                        }
+                                        savedresult = result[0];
+                                        findlastresult = true;
+                                    }
+                                    currentNode.Nodes.Add(new TreeNode(file.Name));
+                                    filesFound++;
 
+                                    break;
+                                }
+                                if (!run) break;
+                            }
+                        }
                         filesDone++;
                         if (!run) break;
                         infoFileLabel.Invoke((MethodInvoker)delegate

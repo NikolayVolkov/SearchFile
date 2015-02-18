@@ -7,3 +7,4 @@ C:\Users\OmKol\documents\visual studio 2013\Projects\SearchFiles\SearchFiles\obj
 C:\Users\OmKol\documents\visual studio 2013\Projects\SearchFiles\SearchFiles\obj\Debug\SearchFiles.csproj.GenerateResource.Cache
 C:\Users\OmKol\documents\visual studio 2013\Projects\SearchFiles\SearchFiles\obj\Debug\SearchFiles.exe
 C:\Users\OmKol\documents\visual studio 2013\Projects\SearchFiles\SearchFiles\obj\Debug\SearchFiles.pdb
+C:\Users\OmKol\documents\visual studio 2013\Projects\SearchFiles\SearchFiles\obj\Debug\SearchFiles.ErrorReadFileForm.resources
